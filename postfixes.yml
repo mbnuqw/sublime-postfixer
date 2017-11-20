@@ -1,0 +1,135 @@
+# List of some scopes (just in case..):
+# 
+# source.actionscript.2  source.dosbatch          source.ini.editorconfig
+# source.applescript     source.dot               source.jade
+# source.asp             source.erlang            source.java
+# source.c               source.gdb.session       source.java-props
+# source.c++             source.gdbregs           source.jl
+# source.camlp4.ocaml    source.git               source.js
+# source.clojure         source.go                source.js.rails
+# source.cmake           source.gradle            source.json
+# source.coffee          source.groovy            source.json.bower
+# source.cs              source.gruntfile.coffee  source.json.npm
+# source.css             source.gruntfile.js      source.jsx
+# source.d               source.gulpfile.coffee   source.less
+# source.diff            source.gulpfile.js       source.lisp
+# source.disasm          source.haskell           source.lua
+# source.dockerfile      source.ini               source.makefile
+# 
+# source.matlab          source.regexp
+# source.nant-build      source.regexp.python
+# source.objc            source.ruby
+# source.objc++          source.ruby.rails
+# source.ocaml           source.rust
+# source.ocamllex        source.sass
+# source.ocamlyacc       source.scala
+# source.pascal          source.scss
+# source.perl            source.shell
+# source.php             source.sql
+# source.procfile        source.sql.ruby
+# source.puppet          source.stylus
+# source.pyjade          source.swift
+# source.python          source.tcl
+# source.qml             source.ts
+# source.r               source.yaml
+# source.r-console
+
+# Structure of fix
+# 
+# {scope}[ {scope}[...]]: - one or multiple (separated by whitespace) scopes
+#   - cmd    - trigger string
+#     target - regex pattern
+#     fix    - template
+
+# Available variables
+# 
+# $-->    - indent
+# $cursor - cursor position
+# $0      - whole matched string
+# $X      - RegEx group indexed from 1
+
+# Some examples:
+
+# Python
+source.python:
+  # If
+  - cmd: "if"
+    target: ".+"
+    fix: |
+      if $0:
+      $-->$cursor
+
+  # If not
+  - cmd: "ifn"
+    target: ".+"
+    fix: |
+      if !$0:
+      $-->$cursor
+
+  # Read file
+  - cmd: "rf"
+    target: ".+"
+    fix: |
+      with open($0) as f:
+      $-->$cursor = f.read()
+
+  # Write file
+  - cmd: "wf"
+    target: ".+"
+    fix: |
+      with open($0, "w") as f:
+      $-->f.write($cursor)
+
+
+# Javascript, Typescript
+source.js source.ts:
+  # If
+  - cmd: "if"
+    target: ".+"
+    fix: |
+      if ($0) {
+      $-->$cursor
+      }
+
+  # Inlined If
+  - cmd: "ifi"
+    target: ".+"
+    fix: |
+      if ($0) $cursor
+
+  # If not
+  - cmd: "ifn"
+    target: ".+"
+    fix: |
+      if (!$0) {
+      $-->$cursor
+      }
+
+  # Function
+  - cmd: "f"
+    target: "([a-zA-Z0-9_]+)\\s?(.*)"
+    fix: |
+      function $1($2) {
+      $-->full target: $0$cursor
+      }
+
+  # Log
+  - cmd: "lg"
+    target: ".+"
+    fix: |
+      console.log($0)$cursor
+
+  # Fetch json
+  - cmd: "fjson"
+    target: ".+"
+    fix: |
+      fetch($0)
+      $-->.then(res => res.json())
+      $-->.then(data => {
+      $-->$-->$cursor
+      $-->})
+      $-->.catch(err => {
+      $-->$-->
+      $-->})
+
+# ... and so on

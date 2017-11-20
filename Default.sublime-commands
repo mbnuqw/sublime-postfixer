@@ -1,0 +1,17 @@
+[
+  {
+    "caption": "Postfixer: Settings",
+    "command": "edit_settings",
+    "args": {
+      "base_file": "${packages}/Postfixer/Postfixer.sublime-settings",
+      "default": "{\n\t$0\n}\n"
+    }
+  },
+  {
+    "caption": "Postfixer: Snippets",
+    "command": "open_file",
+    "args": {
+      "file": "${packages}/User/postfixes.yml"
+    },
+  }
+]
