@@ -106,7 +106,7 @@ source.js source.ts:
       }
 
   # Function
-  - cmd: "f"
+  - cmd: "fun"
     target: "([a-zA-Z0-9_]+)\\s?(.*)"
     fix: |
       function $1($2) {
@@ -119,13 +119,12 @@ source.js source.ts:
     fix: |
       console.log($0)$cursor
 
-  # Fetch json
-  - cmd: "fjson"
+  # Fetch
+  - cmd: "fetch"
     target: ".+"
     fix: |
       fetch($0)
-      $-->.then(res => res.json())
-      $-->.then(data => {
+      $-->.then(res => {
       $-->$-->$cursor
       $-->})
       $-->.catch(err => {
