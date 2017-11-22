@@ -14,11 +14,10 @@ Postfix completions plugin for Sublime Text 3.
 
 ### Manual
 
-```
-git clone git@github.com:mbnuqw/sublime-postfixer.git
-cd sublime-postfixer
-python build.py
-```
+- Clone repository to:
+    - Mac OS: ~/Library/Application Support/Sublime Text 3/Packages/
+    - Linux: ~/.config/sublime-text-3/Packages
+    - Windows: %APPDATA%\Sublime Text 3\Packages
 
 ### Setup key binding
 
