@@ -1,5 +1,35 @@
-# Postfix completions plugin for Sublime Text 3
+# Postfixer
 
-### TODO:
+Postfix completions plugin for Sublime Text 3.
 
-- [ ] Write readme
+
+## Usage examples
+
+![python example](https://raw.githubusercontent.com/mbnuqw/sublime-postfixer/master/docs/py.gif)
+
+![js example](https://raw.githubusercontent.com/mbnuqw/sublime-postfixer/master/docs/js.gif)
+
+
+## Manual Installation
+
+```
+git clone git@github.com:mbnuqw/sublime-postfixer.git
+cd sublime-postfixer
+python build.py
+```
+
+
+### Writing custom snippets
+
+- Open fixes:
+    - Menu: Preferences -> Package Settings -> Postfixer -> Snippets
+    - or Open command palette -> search 'Postfixer: Snippets'
+- Edit snippets and save file
+- Reload snippets:
+    - Menu: Preferences -> Package Settings -> Postfixer -> Reload Snippets
+    - or Open command palette -> search 'Postfixer: Reload Snippets'
+
+
+## License
+
+MIT
