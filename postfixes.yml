@@ -57,28 +57,28 @@ source.python:
     target: ".+"
     fix: |
       if $0:
-      $-->$cursor
+      $-->
 
   # If not
   - cmd: "ifn"
     target: ".+"
     fix: |
       if !$0:
-      $-->$cursor
+      $-->
 
   # Read file
   - cmd: "rf"
-    target: ".+"
+    target: "(.+?)\\s?[=\\s]\\s?(.+)"
     fix: |
-      with open($0) as f:
-      $-->$cursor = f.read()
+      with open($2) as f:
+      $-->$1 = f.read()
 
   # Write file
   - cmd: "wf"
-    target: ".+"
+    target: "(.+?)\\s?[=\\s]\\s?(.+)"
     fix: |
-      with open($0, "w") as f:
-      $-->f.write($cursor)
+      with open($1, "w") as f:
+      $-->f.write($2)
 
 
 # Javascript, Typescript
@@ -95,7 +95,7 @@ source.js source.ts:
   - cmd: "ifi"
     target: ".+"
     fix: |
-      if ($0) $cursor
+      if ($0) 
 
   # If not
   - cmd: "ifn"
@@ -105,19 +105,27 @@ source.js source.ts:
       $-->$cursor
       }
 
+  # Equality
+  - cmd: "eq"
+    target: "(.+)\\s(.+)"
+    fix: |
+      if ($1 === $2) {
+      $-->$cursor
+      }
+
   # Function
   - cmd: "fun"
     target: "([a-zA-Z0-9_]+)\\s?(.*)"
     fix: |
       function $1($2) {
-      $-->full target: $0$cursor
+      $-->$cursor
       }
 
   # Log
   - cmd: "lg"
     target: ".+"
     fix: |
-      console.log($0)$cursor
+      console.log($0)
 
   # Fetch
   - cmd: "fetch"
