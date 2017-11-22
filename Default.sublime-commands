@@ -13,5 +13,9 @@
     "args": {
       "file": "${packages}/User/postfixes.yml"
     },
+  },
+  {
+    "caption": "Postfixer: Reload Snippets",
+    "command": "reload_postfixes"
   }
 ]
