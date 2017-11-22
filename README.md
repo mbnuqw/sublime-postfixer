@@ -10,7 +10,9 @@ Postfix completions plugin for Sublime Text 3.
 ![js example](https://raw.githubusercontent.com/mbnuqw/sublime-postfixer/master/docs/js.gif)
 
 
-## Manual Installation
+## Installation
+
+### Manual
 
 ```
 git clone git@github.com:mbnuqw/sublime-postfixer.git
@@ -18,6 +20,11 @@ cd sublime-postfixer
 python build.py
 ```
 
+### Setup key binding
+
+```json
+{ "keys": ["whatever"], "command": "postfix" },
+```
 
 ### Writing custom snippets
 
