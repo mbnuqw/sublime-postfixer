@@ -16,42 +16,14 @@ VAR_WHOLE = "$0"
 def plugin_loaded():
   # Get settings
   settings = sublime.load_settings("Postfixer.sublime-settings")
-  global global_settings
 
   # Setup debug utils
   global d
   d = Dbg(settings)
 
-  # Get default postfixes file
-  postfixes_str = ""
-  try:
-    postfixes_str = sublime.load_resource(DEFAULT_POSTFIXES_PATH)
-  except:
-    d.lg("Cannot load default postfixes file: " + DEFAULT_POSTFIXES_PATH)
-
-  # Get user's postfixes file or create new from default
-  fixes_path = os.path.join(sublime.packages_path(), "User/postfixes.yml")
-  if os.path.isfile(fixes_path):
-    with open(fixes_path) as f:
-      postfixes_str = f.read()
-  else:
-    with open(fixes_path, "w") as f:
-      f.write(postfixes_str)
-
-  # Parse snippets
-  fixes = None
-  try:
-    fixes = yaml.load(postfixes_str)
-  except:
-    d.lg("Cannot parse postfixes yaml")
-    fixes = {}
-
-  # Prepare snippets to use
-  global postfixes
-  postfixes = {}
-  for scopes, rules in fixes.items():
-    for scope in scopes.split(' '):
-      postfixes[scope] = rules
+  # Load postfixes
+  win = sublime.active_window()
+  win.run_command("reload_postfixes")
 
 
 class PostfixCommand(sublime_plugin.TextCommand):
@@ -124,6 +96,8 @@ class PostfixCommand(sublime_plugin.TextCommand):
 
     # Render fix
     target_match = re.match(fix['target'], target)
+    if target_match is None:
+      raise ValueError("no_fix")
     parsed = fix['fix'].replace(VAR_WHOLE, target_match.group(0))
     parsed = parsed.replace(VAR_INDENT, self.indent_str)
     if len(target_match.groups()) > 0:
@@ -146,3 +120,40 @@ class PostfixCommand(sublime_plugin.TextCommand):
     output = output.replace(VAR_CURSOR, "")
 
     return (output, cursor_index)
+
+
+class ReloadPostfixesCommand(sublime_plugin.WindowCommand):
+
+  def run(self):
+    # Get default postfixes file
+    postfixes_str = ""
+    try:
+      postfixes_str = sublime.load_resource(DEFAULT_POSTFIXES_PATH)
+    except:
+      d.lg("Cannot load default postfixes file: " + DEFAULT_POSTFIXES_PATH)
+
+    # Get user's postfixes file or create new from default
+    fixes_path = os.path.join(sublime.packages_path(), "User/postfixes.yml")
+    if os.path.isfile(fixes_path):
+      with open(fixes_path) as f:
+        postfixes_str = f.read()
+    else:
+      with open(fixes_path, "w") as f:
+        f.write(postfixes_str)
+
+    # Parse snippets
+    fixes = None
+    try:
+      fixes = yaml.load(postfixes_str)
+    except:
+      d.lg("Cannot parse postfixes yaml")
+      fixes = {}
+
+    # Prepare snippets to use
+    global postfixes
+    postfixes = {}
+    for scopes, rules in fixes.items():
+      for scope in scopes.split(' '):
+        postfixes[scope] = rules
+
+    d.lg("Snippets (re)loaded")
