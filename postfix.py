@@ -4,7 +4,7 @@ import yaml
 import sublime
 import sublime_plugin
 
-from Postfixer.dbg import Dbg
+from .dbg import Dbg
 
 DEFAULT_POSTFIXES_PATH = "Packages/Postfixer/postfixes.yml"
 FIX_RE = re.compile(r"^(\s*)(.+)\.(.+)$")
@@ -142,7 +142,6 @@ class ReloadPostfixesCommand(sublime_plugin.WindowCommand):
         f.write(postfixes_str)
 
     # Parse snippets
-    fixes = None
     try:
       fixes = yaml.load(postfixes_str)
     except:
