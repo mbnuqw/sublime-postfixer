@@ -15,9 +15,9 @@ Postfix completions plugin for Sublime Text 3.
 ### Manual
 
 - Clone repository to:
-    - Mac OS: ~/Library/Application Support/Sublime Text 3/Packages/
-    - Linux: ~/.config/sublime-text-3/Packages
-    - Windows: %APPDATA%\Sublime Text 3\Packages
+    - Mac OS: ~/Library/Application Support/Sublime Text 3/Packages/Postfixer
+    - Linux: ~/.config/sublime-text-3/Packages/Postfixer
+    - Windows: %APPDATA%\Sublime Text 3\Packages\Postfixer
 
 ### Setup key binding
 
@@ -25,7 +25,8 @@ Postfix completions plugin for Sublime Text 3.
 { "keys": ["whatever"], "command": "postfix" },
 ```
 
-### Writing custom snippets
+
+## Writing custom snippets
 
 - Open fixes:
     - Menu: Preferences -> Package Settings -> Postfixer -> Snippets
